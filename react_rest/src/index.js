@@ -3,11 +3,26 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import FormularioCadastro from './components/criar-usuario/Criar-Usuario';
+import { aoEnviarFormulario } from './envioFormulario.js'
+import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha } from './validacoes';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/criar-usuario" element={<FormularioCadastro 
+          aoEnviar={aoEnviarFormulario} 
+          validarCPF={validaCPF} 
+          validaNome={validaNome} 
+          validaEmail={validaEmail} 
+          validaSenha={validaSenha}
+          validaConfSenha={validaConfSenha} />} />
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 );
 

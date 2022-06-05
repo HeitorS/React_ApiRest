@@ -1,13 +1,11 @@
-import logo from './logo.svg';
 import './App.css';
 import { Fragment } from 'react';
-import FormularioCadastro from './components/criar-usuario/Criar-Usuario';
 
 function App() {
   return (
     <Fragment>
-      <h1>Formulário de Cadastro</h1>
-      <FormularioCadastro/>
+      <h1>Página inicial</h1>
+      <a href='/criar-usuario' target={'_self'}>Criar usuário</a>
     </Fragment>
   );
 }
