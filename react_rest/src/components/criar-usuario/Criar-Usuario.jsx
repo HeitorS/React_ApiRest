@@ -18,7 +18,7 @@ import {
     Visibility,
     VisibilityOff,
 } from "@mui/icons-material";
-import InputMaskCpf from "./js/inputMask";
+import {InputMaskCpf} from "../helpers/inputs/inputMask";
 
 export default function CriarUsuario({
     aoEnviar,
@@ -78,7 +78,7 @@ export default function CriarUsuario({
                             label="CPF"
                             error={!erroCpf.valido}
                             helperText={erroCpf.message}
-                            onChange={(event) => {
+                            onKeyUp={(event) => {
                                 setCpf({
                                     ...cpf,
                                     value: event.target.value,
@@ -89,9 +89,6 @@ export default function CriarUsuario({
                             }}
                         />
                     </Grid>
-                </Grid>
-                <Grid container spacing={2}>
-                    <Grid item xs={12}></Grid>
                 </Grid>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>

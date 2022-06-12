@@ -1,0 +1,24 @@
+.date-picker {
+    position: relative;
+
+    .date-select {
+        position: absolute;
+        top: 25px;
+        right: 0px;
+        cursor: pointer;
+    }
+
+    .dates {
+        display: none;
+        position: absolute;
+        width: 100%;
+        background-color: #fff;
+        left: 8px;
+        top: 55px;
+        z-index: 1;
+    }
+
+    .dates.active {
+        display: block;
+    }
+}

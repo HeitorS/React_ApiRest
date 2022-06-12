@@ -97,3 +97,15 @@ export function validaConfSenha(senha, confSenha) {
         return { valido: true, message: "" }
     }
 }
+
+export function validaTelefone(telefone) {
+    return { valido: true, message: "" }
+}
+
+export function validaDataNasc(data) {
+    // if (data === '') {
+        // return { valido: false, message: "Confirmação de senha é diferente da senha informada" }
+    // } else {
+        return { valido: true, message: "" }
+    // }
+}

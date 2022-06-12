@@ -4,8 +4,8 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { aoEnviarFormulario } from './envioFormulario.js'
-import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha } from './validacoes';
+import { aoEnviarFormulario } from './components/helpers/submits/envioFormulario.js'
+import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha, validaTelefone, validaDataNasc } from './components/helpers/validacoes/validacoes';
 import Cadastro from './components/criar-usuario/Cadastro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -20,7 +20,9 @@ root.render(
           validaNome={validaNome} 
           validaEmail={validaEmail} 
           validaSenha={validaSenha}
-          validaConfSenha={validaConfSenha} />} />
+          validaConfSenha={validaConfSenha}
+          validaTelefone={validaTelefone}
+          validaDataNasc={validaDataNasc} />} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

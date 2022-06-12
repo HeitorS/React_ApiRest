@@ -2,23 +2,41 @@ import {
     ArrowCircleLeftRounded,
     ArrowCircleRightRounded,
     ArticleSharp,
-    LibraryBooksSharp,
 } from "@mui/icons-material";
-import { Grid, IconButton, Stack, TextField, Typography } from "@mui/material";
+import {
+    FormControl,
+    FormControlLabel,
+    FormLabel,
+    Grid,
+    IconButton,
+    Radio,
+    RadioGroup,
+    Stack,
+    TextField,
+    Typography,
+} from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React, { useState } from "react";
+import {
+    InputDatePicker,
+    InputMaskCelular,
+    InputMaskTelefone,
+} from "../helpers/inputs/inputMask";
 
-export default function DadosCadastrais(
+export default function DadosCadastrais({
     aoEnviar,
+    aoVoltar,
     validaNome,
     validaEmail,
-    validaTelefone
-) {
+    validaTelefone,
+    validaDataNasc,
+}) {
     const [nome, setNome] = useState("");
     const [sobrenome, setSobrenome] = useState("");
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
     const [celular, setCelular] = useState("");
+    const [data, setData] = useState("");
 
     const [erroNome, setErroNome] = useState({ valido: true, message: "" });
     const [erroSobrenome, setErroSobrenome] = useState({
@@ -34,6 +52,10 @@ export default function DadosCadastrais(
         valido: true,
         message: "",
     });
+    const [erroData, setErroData] = useState({
+        valido: true,
+        message: "",
+    });
 
     return (
         <Container className="contentInfo">
@@ -44,7 +66,12 @@ export default function DadosCadastrais(
             <Box
                 onSubmit={(event) => {
                     event.preventDefault();
-                    aoEnviar();
+                    console.log(event.nativeEvent.submitter);
+                    if (1 !== 2) {
+                        aoEnviar();
+                    } else {
+                        aoVoltar();
+                    }
                 }}
                 id="dadosUsuario"
                 component="form"
@@ -63,6 +90,7 @@ export default function DadosCadastrais(
                             onBlur={(event) => {
                                 setErroNome(validaNome(event.target.value));
                             }}
+                            value={nome}
                             error={!erroNome.valido}
                             helperText={erroNome.message}
                             id="nome"
@@ -87,6 +115,7 @@ export default function DadosCadastrais(
                             }}
                             error={!erroSobrenome.valido}
                             helperText={erroSobrenome.message}
+                            value={sobrenome}
                             id="sobrenome"
                             name="sobrenome"
                             label="Sobrenome"
@@ -111,6 +140,7 @@ export default function DadosCadastrais(
                             }}
                             error={!erroEmail.valido}
                             helperText={erroEmail.message}
+                            value={email}
                             id="email"
                             name="email"
                             label="E-mail"
@@ -126,9 +156,9 @@ export default function DadosCadastrais(
 
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
-                        <TextField
+                        <InputMaskTelefone
                             required
-                            onChange={(event) => {
+                            onKeyUp={(event) => {
                                 setTelefone(event.target.value);
                             }}
                             onBlur={(event) => {
@@ -143,15 +173,13 @@ export default function DadosCadastrais(
                             label="Telefone"
                             type="tel"
                             placeholder="Digite seu telefone"
-                            variant="standard"
                             margin="normal"
-                            fullWidth
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
+                        <InputMaskCelular
                             required
-                            onChange={(event) => {
+                            onKeyUp={(event) => {
                                 setCelular(event.target.value);
                             }}
                             onBlur={(event) => {
@@ -173,64 +201,59 @@ export default function DadosCadastrais(
                     </Grid>
                 </Grid>
 
-                
                 <Grid container spacing={2}>
                     <Grid item xs={6}>
-                        <TextField
-                            required
+                        <InputDatePicker
+                            id="data"
+                            name="data"
+                            label="Data Nascimento"
                             onChange={(event) => {
-                                setTelefone(event.target.value);
+                                setData(event.target.value);
                             }}
                             onBlur={(event) => {
-                                setErroTelefone(
-                                    validaTelefone(event.target.value)
-                                );
+                                setErroData(validaDataNasc(event.target.value));
                             }}
-                            error={!erroTelefone.valido}
-                            helperText={erroTelefone.message}
-                            id="telefone"
-                            name="telefone"
-                            label="Telefone"
-                            type="tel"
-                            placeholder="Digite seu telefone"
-                            variant="standard"
-                            margin="normal"
-                            fullWidth
+                            error={!erroData.valido}
+                            helperText={erroData.message}
+                            required
                         />
                     </Grid>
                     <Grid item xs={6}>
-                        <TextField
-                            required
-                            onChange={(event) => {
-                                setCelular(event.target.value);
-                            }}
-                            onBlur={(event) => {
-                                setErroCelular(
-                                    validaTelefone(event.target.value)
-                                );
-                            }}
-                            error={!erroCelular.valido}
-                            helperText={erroCelular.message}
-                            id="celular"
-                            name="celular"
-                            label="Celular"
-                            type="text"
-                            placeholder="Digite seu celular"
-                            variant="standard"
-                            margin="normal"
-                            fullWidth
-                        />
+                        <FormControl fullWidth>
+                            <FormLabel id="lblSexo">Sexo</FormLabel>
+                            <RadioGroup
+                                row
+                                name="sexo"
+                                className="justify-content-space-between"
+                            >
+                                <FormControlLabel
+                                    value="f"
+                                    control={<Radio />}
+                                    label="Feminino"
+                                />
+                                <FormControlLabel
+                                    value="m"
+                                    control={<Radio />}
+                                    label="Masculino"
+                                />
+                            </RadioGroup>
+                        </FormControl>
                     </Grid>
                 </Grid>
                 <Stack direction="row" justifyContent={"space-between"}>
-                    <IconButton color="warning" aria-label="next page">
+                    <IconButton
+                        color="warning"
+                        aria-label="previus page"
+                        className="btnVoltar"
+                        type="submit"
+                    >
                         <ArrowCircleLeftRounded fontSize="large" />
                     </IconButton>
 
                     <IconButton
                         color="success"
                         aria-label="next page"
-                        size="large"
+                        className="btnAvancar"
                         type="submit"
                     >
                         <ArrowCircleRightRounded fontSize="large" />
