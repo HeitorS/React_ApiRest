@@ -1,5 +1,13 @@
+//  VARIAVEIS 
+$selected: rgb(37, 46, 172);
+$num_coluns: repeat(7, 1fr);
+
 .date-picker {
     position: relative;
+    
+    .disabled {
+        cursor: not-allowed;
+    }
 
     .date-select {
         position: absolute;
@@ -7,15 +15,96 @@
         right: 0px;
         cursor: pointer;
     }
-
+    
     .dates {
+        * {
+            color: #fff;
+        }
+        
+        background-image: linear-gradient(60deg, rgb(7, 9, 33), rgb(23, 29, 109));
         display: none;
         position: absolute;
         width: 100%;
-        background-color: #fff;
         left: 8px;
         top: 55px;
         z-index: 1;
+
+        .month {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #eee;
+
+            .arrows {
+                width: 35px;
+                height: 35px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                color: #313131;
+                font-size: 1.2rem;
+                border-radius: 0%;
+                transition: 0.5s;
+                line-height: 1px;
+                cursor: pointer;
+
+                &.prev-mth, &.next-mth {
+                    color: #fff;
+                }
+
+                &.prev-mth:hover {
+                    background-color: $selected;
+                }
+
+                &.next-mth:hover {
+                    background-color: $selected;
+                }
+
+                &.prev-mth:active, &.next-mth:active {
+                    background-color: white;
+                }
+            }
+        }
+
+        .week {
+            display: grid;
+            grid-template-columns: $num_coluns;
+            font-weight: bolder;
+            padding: 5px 10px 0px 10px;
+
+            .daysOfWeek {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+
+        .days {
+            height: 220px;
+            display: grid;
+            grid-template-columns: $num_coluns;
+            padding: 10px;
+
+            .day {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                transition: .5s;
+                height: 37px;
+                cursor: pointer;
+
+                &.selected {
+                    background-color: $selected;
+                    border-radius: 50%;
+                }
+
+                &.disableDay {
+                    color: rgb(156, 156, 156);
+                    cursor: not-allowed;
+                }
+            }
+        }
+
     }
 
     .dates.active {

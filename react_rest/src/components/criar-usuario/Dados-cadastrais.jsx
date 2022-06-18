@@ -36,7 +36,21 @@ export default function DadosCadastrais({
     const [email, setEmail] = useState("");
     const [telefone, setTelefone] = useState("");
     const [celular, setCelular] = useState("");
-    const [data, setData] = useState("");
+    var [data, setData] = useState(newDate(new Date()));
+
+    function newDate(date) {
+        let day = date.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+        let month = date.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+        let year = date.getFullYear();
+
+        return day + "/" + month + "/" + year;
+    }
 
     const [erroNome, setErroNome] = useState({ valido: true, message: "" });
     const [erroSobrenome, setErroSobrenome] = useState({
@@ -66,13 +80,15 @@ export default function DadosCadastrais({
             <Box
                 onSubmit={(event) => {
                     event.preventDefault();
-                    console.log(event.nativeEvent.submitter);
+                    setData(document.querySelector("#data").value);
+                    data = document.querySelector("#data").value;
                     if (1 !== 2) {
                         aoEnviar();
                     } else {
                         aoVoltar();
                     }
                 }}
+                noValidate
                 id="dadosUsuario"
                 component="form"
                 sx={{
@@ -207,6 +223,7 @@ export default function DadosCadastrais({
                             id="data"
                             name="data"
                             label="Data Nascimento"
+                            value={data}
                             onChange={(event) => {
                                 setData(event.target.value);
                             }}

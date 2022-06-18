@@ -61,6 +61,7 @@ export default function CriarUsuario({
             <Box
                 onSubmit={(event) => {
                     event.preventDefault();
+                    console.log("passou aqui");
                     aoEnviar();
                 }}
                 id="dadosUsuario"
@@ -69,6 +70,7 @@ export default function CriarUsuario({
                     "& .MuiTextField-root": { m: 1 },
                 }}
                 autoComplete="true"
+                noValidate
             >
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
