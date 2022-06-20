@@ -17,15 +17,23 @@ body {
     align-items: center;
 }
 
+.MuiStepLabel-label {
+    color: #fff;
+}
+
 .cadastro {
     position: relative;
-    width: auto;
+    width: fit-content;
+    margin: auto;
     border-top-left-radius: 50px;
     border-bottom-right-radius: 50px;
     color: #fff;
     padding: 30px 10px 5px 10px;
     box-shadow: 5px 5px 6px #333;
     background-image: linear-gradient(60deg, rgb(7, 9, 33), rgb(23, 29, 109));
+    margin-top: 50px;
+
+    
 
     .contentUser {
         width: 300px;
@@ -68,6 +76,29 @@ body {
         }
     }
 
+    .contentEnd {
+        width: 600px;
+        padding: 0 20px 0 10px;
+
+        .infoEnd {
+            position: absolute;
+            top: -25px;
+            background-color: rgb(23, 29, 109);
+            border-radius: 100%;
+            font-size: 2.2rem;
+            padding: 7px;
+            left: 47%;
+        }
+
+        h1 {
+            padding-left: 20px;
+        }
+
+        .btnSearch{
+            margin-bottom: 10px;
+        }
+    }
+
     input,
     label,
     div,
@@ -79,11 +110,10 @@ body {
     }
 
     .btnNext {
-        margin-top: 15px;
-        width: 30%;
         color: rgb(84, 167, 89);
-        padding: 0 0 10px 0;
+        padding: 0;
         display: flex;
         justify-content: end;
+        margin-bottom: 10px;
     }
 }

@@ -5,8 +5,9 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { aoEnviarFormulario } from './components/helpers/submits/envioFormulario.js'
-import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha, validaTelefone, validaDataNasc } from './components/helpers/validacoes/validacoes';
+import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha, validaTelefone, validaCelular } from './components/helpers/validacoes/validacoes';
 import Cadastro from './components/criar-usuario/Cadastro';
+import ValidacoesCadastro from './components/helpers/contexts/ValidacoesCadastro';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -14,15 +15,25 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<App />} />
-        <Route path="/criar-usuario" element={<Cadastro 
-          aoEnviar={aoEnviarFormulario} 
-          validarCPF={validaCPF} 
-          validaNome={validaNome} 
-          validaEmail={validaEmail} 
-          validaSenha={validaSenha}
-          validaConfSenha={validaConfSenha}
-          validaTelefone={validaTelefone}
-          validaDataNasc={validaDataNasc} />} />
+        <Route path="/criar-usuario" element={
+          <ValidacoesCadastro.Provider value={{
+            // Criar-Usuario
+            cpf: validaCPF,
+            senha: validaSenha,
+            confSenha: validaConfSenha,
+            // Dados-Cadastrais
+            nome: validaNome,
+            sobrenome: validaNome,
+            email: validaEmail,
+            telefone: validaTelefone,
+            celular: validaCelular
+            // Endereço-Usuario
+          }}>
+            <Cadastro
+              aoEnviar={aoEnviarFormulario}
+            />
+          </ValidacoesCadastro.Provider>
+        } />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
     Container,
     FormControl,
@@ -18,38 +18,22 @@ import {
     Visibility,
     VisibilityOff,
 } from "@mui/icons-material";
-import {InputMaskCpf} from "../helpers/inputs/inputMask";
+import { InputMaskCpf } from "../helpers/inputs/inputMask";
+import ValidacoesCadastro from "../helpers/contexts/ValidacoesCadastro";
+import useValidated from "../helpers/hooks/useValidated";
 
-export default function CriarUsuario({
-    aoEnviar,
-    validarCPF,
-    validaSenha,
-    validaConfSenha,
-}) {
-    const [cpf, setCpf] = useState({
-        textmask: "000.000.000-00",
-        value: "",
-    });
+export default function CriarUsuario({ aoEnviar }) {
+    const validacoes = useContext(ValidacoesCadastro);
+    const [erros, validarCampos, camposValidos] = useValidated(validacoes);
+
+    const [cpf, setCpf] = useState("");
     const [senha, setSenha] = useState({
-        amount: "",
         password: "",
-        weight: "",
-        weightRange: "",
         showPassword: false,
     });
     const [confSenha, setConfSenha] = useState({
-        amount: "",
         password: "",
-        weight: "",
-        weightRange: "",
         showPassword: false,
-    });
-
-    const [erroCpf, setErroCpf] = useState({ valido: true, message: "" });
-    const [erroSenha, setErroSenha] = useState({ valido: true, message: "" });
-    const [erroConfSenha, setErroConfSenha] = useState({
-        valido: true,
-        message: "",
     });
 
     return (
@@ -61,8 +45,9 @@ export default function CriarUsuario({
             <Box
                 onSubmit={(event) => {
                     event.preventDefault();
-                    console.log("passou aqui");
-                    aoEnviar();
+                    if (camposValidos()) {
+                        aoEnviar({ usuario: { cpf, senha, confSenha } });
+                    }
                 }}
                 id="dadosUsuario"
                 component="form"
@@ -70,7 +55,6 @@ export default function CriarUsuario({
                     "& .MuiTextField-root": { m: 1 },
                 }}
                 autoComplete="true"
-                noValidate
             >
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -78,24 +62,20 @@ export default function CriarUsuario({
                             id="cpf"
                             name="cpf"
                             label="CPF"
-                            error={!erroCpf.valido}
-                            helperText={erroCpf.message}
+                            required
+                            error={!erros.cpf.valido}
+                            helperText={erros.cpf.message}
                             onKeyUp={(event) => {
-                                setCpf({
-                                    ...cpf,
-                                    value: event.target.value,
-                                });
+                                setCpf(event.target.value);
                             }}
-                            onBlur={(event) => {
-                                setErroCpf(validarCPF(event.target.value));
-                            }}
+                            onBlur={validarCampos}
                         />
                     </Grid>
                 </Grid>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <FormControl
-                            error={!erroSenha.valido}
+                            error={!erros.senha.valido}
                             sx={{ m: 1 }}
                             variant="standard"
                             fullWidth
@@ -107,7 +87,7 @@ export default function CriarUsuario({
                                 label="Senha"
                                 required
                                 value={senha.password}
-                                error={!erroSenha.valido}
+                                error={!erros.senha.valido}
                                 type={senha.showPassword ? "text" : "password"}
                                 autoComplete="current-password"
                                 onChange={(event) => {
@@ -116,11 +96,7 @@ export default function CriarUsuario({
                                         password: event.target.value,
                                     });
                                 }}
-                                onBlur={(event) => {
-                                    setErroSenha(
-                                        validaSenha(event.target.value)
-                                    );
-                                }}
+                                onBlur={validarCampos}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -149,7 +125,7 @@ export default function CriarUsuario({
                                 id="component-error-text"
                                 sx={{ color: "#d32f2f" }}
                             >
-                                {erroSenha.message}
+                                {erros.senha.message}
                             </FormHelperText>
                         </FormControl>
                     </Grid>
@@ -157,7 +133,7 @@ export default function CriarUsuario({
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <FormControl
-                            error={!erroConfSenha.valido}
+                            error={!erros.confSenha.valido}
                             sx={{ m: 1 }}
                             variant="standard"
                             fullWidth
@@ -171,7 +147,7 @@ export default function CriarUsuario({
                                 label="Confirme sua senha"
                                 required
                                 value={confSenha.password}
-                                error={!erroConfSenha.valido}
+                                error={!erros.confSenha.valido}
                                 type={
                                     confSenha.showPassword ? "text" : "password"
                                 }
@@ -182,16 +158,7 @@ export default function CriarUsuario({
                                         password: event.target.value,
                                     });
                                 }}
-                                onBlur={(event) => {
-                                    let senha =
-                                        document.getElementById("senha").value;
-                                    setErroConfSenha(
-                                        validaConfSenha(
-                                            senha,
-                                            event.target.value
-                                        )
-                                    );
-                                }}
+                                onBlur={validarCampos}
                                 endAdornment={
                                     <InputAdornment position="end">
                                         <IconButton
@@ -220,7 +187,7 @@ export default function CriarUsuario({
                                 id="component-error-text"
                                 sx={{ color: "#d32f2f" }}
                             >
-                                {erroConfSenha.message}
+                                {erros.confSenha.message}
                             </FormHelperText>
                         </FormControl>
                     </Grid>

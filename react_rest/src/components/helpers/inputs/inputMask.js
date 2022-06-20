@@ -1,5 +1,5 @@
-import { ArrowBackIosNew, ArrowForwardIos, CalendarMonthSharp } from "@mui/icons-material";
-import { TextField } from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos, CalendarMonthSharp, Search } from "@mui/icons-material";
+import { IconButton, InputAdornment, TextField } from "@mui/material";
 import React from "react";
 import "./date-picker.scss";
 
@@ -66,7 +66,7 @@ export function InputDatePicker({ ...props }) {
     event.target.value = v;
   }
 
-  window.onload = function () {
+  function mountDatePicker() {
     const data_picker_element = document.querySelector('.date-picker');
     const selected_date_element = document.querySelector('.date-picker .selected-date #data');
     const dates_element = document.querySelector('.date-picker .dates');
@@ -87,7 +87,6 @@ export function InputDatePicker({ ...props }) {
     let selectedYear = year;
 
     mth_element.textContent = months[month] + ' ' + year;
-    selected_date_element.value = formatDate(date);
     populateDates();
 
     // EVENT LISTENERS
@@ -166,7 +165,7 @@ export function InputDatePicker({ ...props }) {
           selected_date_element.value = formatDate(selectedDate);
           selected_date_element.dataset.value = selectedDate;
           populateDates();
-        })
+        });
 
         days_element.appendChild(day_element);
 
@@ -187,7 +186,7 @@ export function InputDatePicker({ ...props }) {
     function checkEventPathForClass(path) {
       for (let i = 0; i < path.length; i++) {
         if (path[i].classList) {
-          if (path[i].classList[0] === 'day'){
+          if (path[i].classList[0] === 'day') {
             return false;
           }
         }
@@ -220,7 +219,7 @@ export function InputDatePicker({ ...props }) {
         onChange={handleOnChangeDate}
         fullWidth
       />
-      <CalendarMonthSharp className="date-select" />
+      <CalendarMonthSharp className="date-select" onMouseEnter={mountDatePicker}/>
       <div className="dates">
         <div className="month">
           <div className="arrows prev-mth"><ArrowBackIosNew /></div>
@@ -240,5 +239,36 @@ export function InputDatePicker({ ...props }) {
         </div>
       </div>
     </div>
+  );
+}
+
+export function InputCepSearch({ ...props }) {
+  const handleKeyUpCep = (event) => {
+    event.target.maxLength = 14;
+    let v = event.target.value;
+    v = v.replace(/\D/g, "");
+    v = v.replace(/^(\d{5})(\d{3})/, "$1-$2");
+    event.target.value = v;
+  }
+  return (
+    <TextField
+      {...props}
+      fullWidth
+      variant="standard"
+      onChange={handleKeyUpCep}
+      InputProps={{
+        endAdornment: (
+          <InputAdornment position="start">
+            <IconButton
+              aria-label="search cep"
+              className="btnSearch"
+              type="submit"
+            >
+              <Search />
+            </IconButton>
+          </InputAdornment>
+        )
+      }}
+    />
   );
 }

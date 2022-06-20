@@ -1,11 +1,13 @@
-//  VARIAVEIS 
+//  VARIAVEIS
 $selected: rgb(37, 46, 172);
 $num_coluns: repeat(7, 1fr);
 
 .date-picker {
     position: relative;
-    
+
+    input,
     .disabled {
+        pointer-events: none;
         cursor: not-allowed;
     }
 
@@ -15,13 +17,17 @@ $num_coluns: repeat(7, 1fr);
         right: 0px;
         cursor: pointer;
     }
-    
+
     .dates {
         * {
             color: #fff;
         }
-        
-        background-image: linear-gradient(60deg, rgb(7, 9, 33), rgb(23, 29, 109));
+
+        background-image: linear-gradient(
+            60deg,
+            rgb(7, 9, 33),
+            rgb(23, 29, 109)
+        );
         display: none;
         position: absolute;
         width: 100%;
@@ -48,7 +54,8 @@ $num_coluns: repeat(7, 1fr);
                 line-height: 1px;
                 cursor: pointer;
 
-                &.prev-mth, &.next-mth {
+                &.prev-mth,
+                &.next-mth {
                     color: #fff;
                 }
 
@@ -60,7 +67,8 @@ $num_coluns: repeat(7, 1fr);
                     background-color: $selected;
                 }
 
-                &.prev-mth:active, &.next-mth:active {
+                &.prev-mth:active,
+                &.next-mth:active {
                     background-color: white;
                 }
             }
@@ -89,7 +97,7 @@ $num_coluns: repeat(7, 1fr);
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                transition: .5s;
+                transition: 0.5s;
                 height: 37px;
                 cursor: pointer;
 
@@ -104,7 +112,6 @@ $num_coluns: repeat(7, 1fr);
                 }
             }
         }
-
     }
 
     .dates.active {

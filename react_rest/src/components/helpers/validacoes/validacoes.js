@@ -99,13 +99,17 @@ export function validaConfSenha(senha, confSenha) {
 }
 
 export function validaTelefone(telefone) {
-    return { valido: true, message: "" }
+    if (telefone === '' || telefone.length < 10) {
+        return { valido: false, message: "Telefone deve conter pelo menos 10 números com o DDD" }
+    } else {
+        return { valido: true, message: "" }
+    }
 }
 
-export function validaDataNasc(data) {
-    // if (data === '') {
-        // return { valido: false, message: "Confirmação de senha é diferente da senha informada" }
-    // } else {
+export function validaCelular(celular) {
+    if (celular === '' || celular.length < 11) {
+        return { valido: false, message: "Celular deve conter pelo menos 11 números com o DDD" }
+    } else {
         return { valido: true, message: "" }
-    // }
+    }
 }
