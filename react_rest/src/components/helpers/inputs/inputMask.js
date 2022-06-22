@@ -1,5 +1,5 @@
-import { ArrowBackIosNew, ArrowForwardIos, CalendarMonthSharp, Search } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import { ArrowBackIosNew, ArrowForwardIos, CalendarMonthSharp } from "@mui/icons-material";
+import { TextField } from "@mui/material";
 import React from "react";
 import "./date-picker.scss";
 
@@ -242,33 +242,13 @@ export function InputDatePicker({ ...props }) {
   );
 }
 
-export function InputCepSearch({ ...props }) {
+export function InputMaskCep() {
   const handleKeyUpCep = (event) => {
-    event.target.maxLength = 14;
+    event.target.maxLength = 9;
     let v = event.target.value;
     v = v.replace(/\D/g, "");
     v = v.replace(/^(\d{5})(\d{3})/, "$1-$2");
     event.target.value = v;
   }
-  return (
-    <TextField
-      {...props}
-      fullWidth
-      variant="standard"
-      onChange={handleKeyUpCep}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="start">
-            <IconButton
-              aria-label="search cep"
-              className="btnSearch"
-              type="submit"
-            >
-              <Search />
-            </IconButton>
-          </InputAdornment>
-        )
-      }}
-    />
-  );
+  return handleKeyUpCep;
 }

@@ -13,9 +13,9 @@ export default function Cadastro({ aoEnviar }) {
         }
     });
     const formularios = [
+        <EnderecoUsuario aoEnviar={aoEnviar} aoVoltar={voltar} />,
         <CriarUsuario aoEnviar={prosseguir} />,
         <DadosCadastrais aoEnviar={prosseguir} aoVoltar={voltar} />,
-        <EnderecoUsuario aoEnviar={aoEnviar} aoVoltar={voltar} />,
     ];
 
     function prosseguir(dados) {
