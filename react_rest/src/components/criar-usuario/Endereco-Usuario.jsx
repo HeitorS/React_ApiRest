@@ -18,26 +18,33 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import React, { useContext, useState } from "react";
-import ValidacoesCadastro from "../helpers/contexts/ValidacoesCadastro";
+import React, { useState } from "react";
 import useListMunicipios from "../helpers/hooks/useListMunicipios";
-import useValidated from "../helpers/hooks/useValidated";
+import useSendForm from "../helpers/hooks/useSendForm";
 import { InputMaskCep } from "../helpers/inputs/inputMask";
 
-export default function EnderecoUsuario(aoEnviar, aoVoltar) {
-
+export default function EnderecoUsuario(aoVoltar) {
     const handleKeyUpCep = InputMaskCep();
-    const validacoes = useContext(ValidacoesCadastro);
-    const [erros, validarCampos, camposValidos] = useValidated(validacoes);
-    const [estados, cidades] = useListMunicipios();
 
+    const [estados, cidades] = useListMunicipios();
+    const [aoEnviar] = useSendForm("cadastro");
     const [endereco, setEndereco] = useState({
         cep: "",
         logradouro: "",
         bairro: "",
         estado: "SP",
         cidade: "",
+        numero: "",
+        complemento: ""
     });
+
+    const handleKeyUpNumero = (event) => {
+        event.target.maxLength = 5;
+        let v = event.target.value;
+        v = v.replace(/\D/g, "");
+        event.target.value = v;
+        setEndereco({...endereco, numero: v})
+    }
 
     return (
         <Container className="contentEnd">
@@ -60,7 +67,15 @@ export default function EnderecoUsuario(aoEnviar, aoVoltar) {
                         );
                         request.send();
                         request.onload = () => {
-                            endereco = JSON.parse(request.response);
+                            let end = JSON.parse(request.response);
+                            setEndereco({
+                                ...endereco,
+                                cep: end.cep,
+                                logradouro: end.logradouro,
+                                bairro: end.bairro,
+                                estado: end.uf,
+                                cidade: end.localidade,
+                            });
                         };
                     } else if (
                         event.nativeEvent.submitter.classList.contains(
@@ -92,7 +107,6 @@ export default function EnderecoUsuario(aoEnviar, aoVoltar) {
                                     ...endereco,
                                     cep: event.target.value,
                                 });
-                                
                             }}
                             onKeyDown={handleKeyUpCep}
                             fullWidth
@@ -165,7 +179,9 @@ export default function EnderecoUsuario(aoEnviar, aoVoltar) {
                                 </MenuItem>
                                 {estados.map((est, key) => {
                                     return (
-                                        <MenuItem key={key} value={est}>{est}</MenuItem>
+                                        <MenuItem key={key} value={est}>
+                                            {est}
+                                        </MenuItem>
                                     );
                                 })}
                             </Select>
@@ -191,11 +207,48 @@ export default function EnderecoUsuario(aoEnviar, aoVoltar) {
                                 </MenuItem>
                                 {cidades[endereco.estado].map((cid, key) => {
                                     return (
-                                        <MenuItem key={key} value={cid}>{cid}</MenuItem>
+                                        <MenuItem key={key} value={cid}>
+                                            {cid}
+                                        </MenuItem>
                                     );
                                 })}
                             </Select>
                         </FormControl>
+                    </Grid>
+                </Grid>
+                <Grid container spacing={2}>
+                    <Grid item xs={2}>
+                        <TextField
+                            id="numero"
+                            name="numero"
+                            label="Número"
+                            value={endereco.numero}
+                            onChange={(event) => {
+                                setEndereco({
+                                    ...endereco,
+                                    numero: event.target.value,
+                                });
+                            }}
+                            onKeyUp={handleKeyUpNumero}
+                            fullWidth
+                            variant="standard"
+                        />
+                    </Grid>
+                    <Grid item xs={10}>
+                        <TextField
+                            id="complemento"
+                            name="complemento"
+                            label="Complemento"
+                            value={endereco.complemento}
+                            onChange={(event) => {
+                                setEndereco({
+                                    ...endereco,
+                                    complemento: event.target.value,
+                                });
+                            }}
+                            fullWidth
+                            variant="standard"
+                        />
                     </Grid>
                 </Grid>
                 <Stack direction="row" justifyContent={"space-between"}>

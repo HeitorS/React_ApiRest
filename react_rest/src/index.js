@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { aoEnviarFormulario } from './components/helpers/submits/envioFormulario.js'
 import { validaCPF, validaNome, validaEmail, validaSenha, validaConfSenha, validaTelefone, validaCelular } from './components/helpers/validacoes/validacoes';
 import Cadastro from './components/criar-usuario/Cadastro';
 import ValidacoesCadastro from './components/helpers/contexts/ValidacoesCadastro';
@@ -27,11 +26,8 @@ root.render(
             email: validaEmail,
             telefone: validaTelefone,
             celular: validaCelular
-            // Endereço-Usuario
           }}>
-            <Cadastro
-              aoEnviar={aoEnviarFormulario}
-            />
+            <Cadastro />
           </ValidacoesCadastro.Provider>
         } />
       </Routes>
